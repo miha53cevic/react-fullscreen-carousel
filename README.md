@@ -1,3 +1,6 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build](https://github.com/miha53cevic/react-fullscreen-carousel/actions/workflows/build.yaml/badge.svg)](https://github.com/miha53cevic/react-fullscreen-carousel/actions/workflows/build.yaml)
+[![NPM publish](https://github.com/miha53cevic/react-fullscreen-carousel/actions/workflows/npm.yaml/badge.svg?event=release)](https://github.com/miha53cevic/react-fullscreen-carousel/actions/workflows/npm.yaml)
 # react-fullscreen-carousel
 React fullscreen image carousel component for desktop and mobile 
 
