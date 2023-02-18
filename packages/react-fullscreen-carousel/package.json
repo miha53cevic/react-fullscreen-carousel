@@ -30,5 +30,12 @@
     "vite": "^4.1.0",
     "vite-plugin-css-injected-by-js": "^3.0.1",
     "vite-plugin-dts": "^2.0.0-beta.1"
-  }
+  },
+  "author": "miha53cevic",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/miha53cevic/react-fullscreen-carousel"
+  },
+  "homepage": "https://github.com/miha53cevic/react-fullscreen-carousel"
 }
