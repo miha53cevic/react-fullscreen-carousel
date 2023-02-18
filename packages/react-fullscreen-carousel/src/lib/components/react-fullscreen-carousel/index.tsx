@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { ButtonHTMLAttributes, useEffect, useRef, useState } from 'react';
 import './react-fullscreen-carousel.css';
 
 export interface ISlide {
@@ -10,21 +10,27 @@ export interface Props {
     slides: ISlide[],
     handleClose: () => void,
     startSlideIndex?: number,
+    prevButtonElement?: (onClick: () => void) => JSX.Element,
+    nextButtonElement?: (onClick: () => void) => JSX.Element,
+    closeButtonElement?: (onClick: () => void) => JSX.Element,
 };
 
 /**
  * Image Gallery viewer aka when clicking on an image show all the images in a bigger (fullscreen) size
  * @param slides Array of images
  * @param handleClose Function to call to close the image gallery
- * @param startSlideIndex OPTIONAL starting slide index, default is the first one in the array
+ * @param startSlideIndex OPTIONAL starting slide index, default is the first one in the array which is 0
+ * @param prevButtonElement OPTIONAL use custom button (onClick: () => void) => <YourElement onClick={onClick} />
+ * @param nextButtonElement OPTIONAL use custom button (onClick: () => void) => <YourElement onClick={onClick} />
+ * @param closeButtonElement OPTIONAL use custom button (onClick: () => void) => <YourElement onClick={onClick} />
  * @example
  * // Place anywhere and use a state (ex. openModal) to check if it needs to be rendered
  *  { openModal ?
- *  <ImageSlider props />
+ *  <ReactFullscreenCarousel { ...props } />
  *  : null
  *  }
  */
-const ReactFullscreenCarousel: React.FC<Props> = ({ slides, handleClose, startSlideIndex }) => {
+const ReactFullscreenCarousel: React.FC<Props> = ({ slides, handleClose, startSlideIndex, prevButtonElement, nextButtonElement, closeButtonElement }) => {
 
     const [current, setCurrent] = useState<number>(0);
 
@@ -35,8 +41,8 @@ const ReactFullscreenCarousel: React.FC<Props> = ({ slides, handleClose, startSl
             setCurrent(() => startSlideIndex);
         }
 
-        // Makni scrollbar dok se otvori modal
-        // Bitno hidden, a ne none jer hidden zapamti di si zadnje ostavil scroll
+        // Remove scrollbar when the modal opens
+        // Must be overflow hidden and not none because hidden keeps last scrolled position
         document.body.style.overflow = "hidden";
         return () => {
             document.body.style.overflow = "auto";
@@ -55,12 +61,14 @@ const ReactFullscreenCarousel: React.FC<Props> = ({ slides, handleClose, startSl
     const animationId = useRef<number>(0);
 
     // Makni default drag behaviour koji je kopirati sliku
+    // Disable default drag behaviour on image which is copying it
     const handleDragStart = (e: React.DragEvent<HTMLImageElement>) => {
         e.preventDefault();
     };
 
     useEffect(() => {
-        // Pomakni za window width
+        // Move by window width, currentTranslate is the changing one when moving the images 
+        // and prevTranslate is the original position before moving them (they are in the middle of the screen)
         currentTranslate.current = current * -window.innerWidth;
         prevTranslate.current = currentTranslate.current;
 
@@ -101,39 +109,19 @@ const ReactFullscreenCarousel: React.FC<Props> = ({ slides, handleClose, startSl
         isDragging.current = false;
         cancelAnimationFrame(animationId.current);
 
+        // The minimum amount of pixels that should be moved to trigger an image change
         const translateDelta = 50;
 
         // if moved enough negative then snap to next slide if there is one
         if (currentTranslate.current - prevTranslate.current < -translateDelta) nextSlide();
 
         // if moved enough positive then snap to previous slide if there is one
-        if (currentTranslate.current - prevTranslate.current > translateDelta) prevSlide();
+        else if (currentTranslate.current - prevTranslate.current > translateDelta) prevSlide();
 
-        // If on the first slide reset move
-        if (currentTranslate.current - prevTranslate.current > translateDelta) {
-            currentTranslate.current = 0;
-            prevTranslate.current = 0;
-
-            if (slideContainerRef.current)
-                slideContainerRef.current.style.transform = `translateX(${currentTranslate.current}px)`;
-        }
-
-        // If on the last slide reset move
-        else if (currentTranslate.current - prevTranslate.current < -translateDelta) {
-            currentTranslate.current = current * -window.innerWidth;
-
-            if (slideContainerRef.current)
-                slideContainerRef.current.style.transform = `translateX(${currentTranslate.current}px)`;
-        }
-
-        // If the translation distance is less then translateDelta then reset back to original position
+        // If the translation distance is less then translateDelta then reset back to original position (middle of the screen)
         else {
-            currentTranslate.current = current * -window.innerWidth;
-
-            if (slideContainerRef.current)
-                slideContainerRef.current.style.transform = `translateX(${currentTranslate.current}px)`;
+            resetPosition();
         }
-
 
         //console.log("End");
     };
@@ -146,19 +134,31 @@ const ReactFullscreenCarousel: React.FC<Props> = ({ slides, handleClose, startSl
         if (isDragging.current) requestAnimationFrame(animate);
     };
 
+    // Reset back to original position (remove current translation and use current * window.innerWidth)
+    const resetPosition = () => {
+        currentTranslate.current = prevTranslate.current;
+
+        if (slideContainerRef.current)
+            slideContainerRef.current.style.transform = `translateX(${currentTranslate.current}px)`;
+    };
+
     ////////////////////////////////////////////////////
 
     const nextSlide = () => {
-        // Loop version
-        //setCurrent((current === slides.length - 1) ? 0 : current + 1);
         if (current !== slides.length - 1) {
             setCurrent(prev => prev + 1);
+        } else {
+            // if last image just reset it back to middle
+            resetPosition();
         }
     };
 
     const prevSlide = () => {
         if (current !== 0) {
             setCurrent(prev => prev - 1);
+        } else {
+            // if first image then reset back to middle
+            resetPosition();
         }
     };
 
@@ -167,13 +167,25 @@ const ReactFullscreenCarousel: React.FC<Props> = ({ slides, handleClose, startSl
     return (
         <div className='container'>
             <div className='backButton'>
-                <button onClick={prevSlide}>Back</button>
+                {prevButtonElement ?
+                    prevButtonElement(prevSlide)
+                    :
+                    <button onClick={prevSlide}>Prev</button>
+                }
             </div>
             <div className='forwardButton'>
-                <button onClick={nextSlide}>Next</button>
+                {nextButtonElement ?
+                    nextButtonElement(nextSlide)
+                    :
+                    <button onClick={nextSlide}>Next</button>
+                }
             </div>
             <div className='closeButton'>
-                <button onClick={handleClose}>Close</button>
+                {closeButtonElement ?
+                    closeButtonElement(handleClose)
+                    :
+                    <button onClick={handleClose}>Close</button>
+                }
             </div>
             <div className='imageIndicatorContainer'>
                 <h1>{`${current + 1} / ${slides.length}`}</h1>

@@ -63,7 +63,7 @@
 .imageIndicatorContainer {
     position: absolute;
     left: 50%;
-    top: 1rem;
+    top: 0;
     transform: translate(-50%, 0);
 }
 

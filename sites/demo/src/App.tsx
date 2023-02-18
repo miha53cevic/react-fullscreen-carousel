@@ -17,7 +17,7 @@ const App: React.FC = () => {
     return (
         <main>
             {open ?
-                <ReactFullscreenCarousel slides={data} handleClose={() => setOpen(false)} startSlideIndex={0} />
+                <ReactFullscreenCarousel slides={data} handleClose={() => setOpen(false)} />
                 : null
             }
             <button onClick={() => setOpen(true)}>Open images</button>
