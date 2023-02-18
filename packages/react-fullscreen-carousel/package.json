@@ -1,6 +1,6 @@
 {
   "name": "react-fullscreen-carousel",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "files": [
     "dist"
@@ -31,11 +31,16 @@
     "vite-plugin-css-injected-by-js": "^3.0.1",
     "vite-plugin-dts": "^2.0.0-beta.1"
   },
+  "peerDependencies": {
+    "react": ">=16.x",
+    "react-dom": ">=16.x"
+  },
   "author": "miha53cevic",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/miha53cevic/react-fullscreen-carousel"
   },
-  "homepage": "https://github.com/miha53cevic/react-fullscreen-carousel"
+  "homepage": "https://github.com/miha53cevic/react-fullscreen-carousel",
+  "keywords": ["react-carousel", "react-fullscreen-carousel"]
 }
