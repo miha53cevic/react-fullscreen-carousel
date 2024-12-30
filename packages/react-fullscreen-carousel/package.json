@@ -1,50 +1,51 @@
 {
-  "name": "react-fullscreen-carousel",
-  "version": "1.0.4",
-  "type": "module",
-  "files": [
-    "dist"
-  ],
-  "main": "./dist/react-fullscreen-carousel.umd.cjs",
-  "module": "./dist/react-fullscreen-carousel.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/react-fullscreen-carousel.js",
-      "require": "./dist/react-fullscreen-carousel.umd.cjs"
-    }
-  },
-  "scripts": {
-    "build": "tsc && vite build"
-  },
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  },
-  "devDependencies": {
-    "@types/node": "^18.14.0",
-    "@types/react": "^18.0.27",
-    "@types/react-dom": "^18.0.10",
-    "@vitejs/plugin-react-swc": "^3.0.0",
-    "typescript": "^4.9.3",
-    "vite": "^4.1.0",
-    "vite-plugin-css-injected-by-js": "^3.0.1",
-    "vite-plugin-dts": "^2.0.0-beta.1"
-  },
-  "peerDependencies": {
-    "react": ">=16.x",
-    "react-dom": ">=16.x"
-  },
-  "author": "miha53cevic",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/miha53cevic/react-fullscreen-carousel"
-  },
-  "homepage": "https://github.com/miha53cevic/react-fullscreen-carousel",
-  "keywords": [
-    "react-carousel",
-    "react-fullscreen-carousel"
-  ],
-  "description": "React fullscreen image carousel component for desktop and mobile"
+    "name": "react-fullscreen-carousel",
+    "version": "1.0.5",
+    "type": "module",
+    "files": [
+        "dist"
+    ],
+    "main": "./dist/react-fullscreen-carousel.umd.cjs",
+    "module": "./dist/react-fullscreen-carousel.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "import": "./dist/react-fullscreen-carousel.js",
+            "require": "./dist/react-fullscreen-carousel.umd.cjs",
+            "types": "./dist/index.d.ts"
+        }
+    },
+    "scripts": {
+        "build": "tsc && vite build"
+    },
+    "dependencies": {
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    },
+    "devDependencies": {
+        "@types/node": "^18.14.0",
+        "@types/react": "^18.0.27",
+        "@types/react-dom": "^18.0.10",
+        "@vitejs/plugin-react-swc": "^3.0.0",
+        "typescript": "^4.9.3",
+        "vite": "^4.1.0",
+        "vite-plugin-css-injected-by-js": "^3.0.1",
+        "vite-plugin-dts": "^2.0.0-beta.1"
+    },
+    "peerDependencies": {
+        "react": ">=16.x",
+        "react-dom": ">=16.x"
+    },
+    "author": "miha53cevic",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/miha53cevic/react-fullscreen-carousel"
+    },
+    "homepage": "https://github.com/miha53cevic/react-fullscreen-carousel",
+    "keywords": [
+        "react-carousel",
+        "react-fullscreen-carousel"
+    ],
+    "description": "React fullscreen image carousel component for desktop and mobile"
 }
